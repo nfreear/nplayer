@@ -1,0 +1,24 @@
+{
+  "name": "nplayer",
+  "version": "1.0.0-dev",
+  "description": "An audio-video media player for RSS feeds of podcasts.",
+  "main": "index.js",
+  "homepage": "https://nfreear.github.io/nplayer/?bbc:p02nrvdq/Neil-s-photo-fiasco-and-other-tales---",
+  "author": "Nick Freear",
+  "repository": "https://github.com/nfreear/nplayer.git",
+  "dependencies": {
+    "rss-parser": "^3.4.2"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "live-server": "",
+    "semistandard": "^12.0.1"
+  },
+  "scripts": {
+    "build": "browserify index.js > dist/nplayer.js && cp style/style.less dist/nplayer.css",
+    "start": "live-server --port=9001",
+    "fix": "semistandard --fix",
+    "test": "semistandard"
+  },
+  "x-gist-url": "https://gist.github.com/nfreear/cf3f13a50aab58fb4115089640442b1f"
+}
