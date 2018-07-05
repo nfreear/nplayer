@@ -2,9 +2,19 @@
   Parse podcast RSS feeds | © Nick Freear, 26-June-2018.
 */
 
-const RSSParser = require('rss-parser');
+// const RSSParser = require('rss-parser');
+const PlayerError = require('./player-error');
 
-module.exports = function (CFG) {
+module.exports = {
+  isPodcast: isPodcast,
+  parse: parse
+};
+
+function isPodcast (CFG) {
+  return /\?[a-z]{2,}:\w+/.test(CFG.query);
+}
+
+function parse (CFG, RSSParser) {
   const promise = new Promise(function (resolve, reject) {
     var bMatch = false;
 
@@ -13,9 +23,7 @@ module.exports = function (CFG) {
 
       // const POD = CFG.providers[ idx ];
 
-      const qm = window.location.search.match(POD.regex);
-
-      // const POD = CFG.oupodcast;
+      const qm = CFG.query.match(POD.regex);
 
       console.debug('Each:', idx, POD, qm);
 
@@ -33,7 +41,7 @@ module.exports = function (CFG) {
         tid: qm[ 2 ] || POD.example.p[ 2 ]
       };
 
-      TRY_ID.title = TRY_ID.tid; /// .replace(/-/g, ' ');
+      TRY_ID.title = prepareTitle(TRY_ID.tid);
 
       console.debug('Try:', qm, TRY_ID);
 
@@ -49,7 +57,7 @@ module.exports = function (CFG) {
         }
       });
 
-      parser.parseURL(CFG.cors_proxy + RSS_URL, function (err, feed) {
+      parser.parseURL(CFG.corsProxy + RSS_URL, function (err, feed) {
         if (err) {
           // TODO:
           reject(err);
@@ -59,9 +67,7 @@ module.exports = function (CFG) {
         console.log(feed.title, ':', feed.items.length, feed.image.url[ 0 ]);
 
         const FOUND_ITEM = feed.items.find(function (entry) {
-          const TRY_TITLE = entry.title.replace(/[^\w]/g, '-');
-
-          return TRY_TITLE === TRY_ID.title;
+          return prepareTitle(entry.title) === TRY_ID.title;
         });
 
         if (FOUND_ITEM) {
@@ -69,24 +75,8 @@ module.exports = function (CFG) {
 
           resolve(FOUND_ITEM);
         } else {
-          reject(new Error([ 'Item not found in RSS feed. ', TRY_ID.title, RSS_URL ]));
+          reject(new PlayerError('Item not found in RSS feed.', 404.1, [ TRY_ID.title, RSS_URL ]));
         }
-
-        /* feed.items.forEach(function (entry) {
-          const TRY_TITLE = entry.title.replace(/[^\w]/g, '-');
-
-          if (TRY_TITLE === TRY_ID.title) {
-            console.warn('A match!', entry);
-
-            bMatch = true;
-
-            resolve(entry);
-          }
-          else {
-            console.warn('No match!!', TRY_ID, TRY_TITLE);
-          }
-          // console.log(entry.title + ':' + entry.link);
-        }); */
       });
     }); // CFG.providers.forEach()
 
@@ -95,5 +85,16 @@ module.exports = function (CFG) {
     }
   }); // new Promise.
 
+  function prepareTitle (title) {
+    // const RE_SIZE = new RegExp('^(.+){4,%s}'.replace('%s', CFG.titleCompSize));
+    // title.replace(/\.+$/, '').replace(/[^\w]/g, '-').replace(RE_SIZE, '$&');
+
+    const TRY_TITLE = title.substr(0, CFG.titleCmpSize).replace(/\.+$/, '').replace(/[^\w]/g, '-');
+
+    console.warn('prepareTitle:', [ title, TRY_TITLE ]);
+
+    return TRY_TITLE;
+  }
+
   return promise;
-};
+}

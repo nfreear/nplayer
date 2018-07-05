@@ -5,13 +5,19 @@
 <link rel="stylesheet" href="dist/nplayer.css" />
 
 <div id="n-player" class="n-player-js" >
-  <h2 class="title"> Loading ... </h2>
-  <video controls autoplay="false" src="" poster="" width="100%" height=400 ></video>
+  <h2 class="np-title"> Loading ... </h2>
+
+  <video controls autoplay="false" src="" poster="" width="100%" height="400" ></video>
   <audio controls autoplay="false" src="" width="100%" ></audio>
-  <p class="desc"> ... </p>
-  <p class="author"> ... </p>
-  <p class="date"> ... </p>
-  <a class="transcript" href="">...</a>
+
+  <p class="np-desc"> ... </p>
+  <p class="np-author"> ... </p>
+  <p class="np-duration" title="Duration"> ... </p>
+  <p class="np-date"> ... </p>
+  <a class="np-transcript" href="#" title="Transcript" >...</a>
+  <a class="np-download" href="#" >Download</a>
+
+  <script class="np-data" type="application/json"></script>
 </div>
 
 <script src="dist/nplayer.js"></script>

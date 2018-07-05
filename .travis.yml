@@ -10,13 +10,12 @@ cache:
   directories:
     - node_modules ## NPM packages.
 
-install: npm install
+# install: npm install
 
 before_script: npm run build
 
-script: npm test
+# script: npm test
 
-after_script:
-  - ls -al dist/
+after_script: ls -al dist/
 
 # End.

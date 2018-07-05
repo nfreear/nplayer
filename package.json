@@ -1,10 +1,11 @@
 {
   "name": "nplayer",
   "version": "1.0.0-dev",
-  "description": "An audio-video media player for RSS feeds of podcasts.",
+  "description": "An audio-video media player for RSS podcast feeds.",
+  "license": "UNLICENSED",
   "main": "index.js",
-  "homepage": "https://nfreear.github.io/nplayer/?bbc:p02nrvdq/Neil-s-photo-fiasco-and-other-tales---",
-  "author": "Nick Freear",
+  "homepage": "https://nfreear.github.io/nplayer/?bbc:p02nrvdq/Neil-s-photo-fiasco-and-other-tales-",
+  "author": "© Nick Freear, 26-June-2018",
   "repository": "https://github.com/nfreear/nplayer.git",
   "dependencies": {
     "rss-parser": "^3.4.2"
@@ -12,13 +13,14 @@
   "devDependencies": {
     "browserify": "^16.2.2",
     "live-server": "",
-    "semistandard": "^12.0.1"
+    "semistandard": "^12.0.1",
+    "uncomment-cli": "git+https://github.com/nfreear/uncomment-cli.git#0.9.0"
   },
   "scripts": {
-    "build": "browserify index.js > dist/nplayer.js && cp style/style.less dist/nplayer.css",
+    "build": "mkdir -p dist; browserify index.js | _unc > dist/nplayer.js && cp style/style.less dist/nplayer.css",
     "start": "live-server --port=9001",
     "fix": "semistandard --fix",
     "test": "semistandard"
   },
-  "x-gist-url": "https://gist.github.com/nfreear/cf3f13a50aab58fb4115089640442b1f"
+  "x-gist-url": "https://gist.github.com/nfreear/15ff6439490b65febc6427c1964a1553"
 }
