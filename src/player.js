@@ -6,13 +6,20 @@ const PlayerError = require('./player-error');
 
 module.exports = {
   setConfig: setConfig,
+  setQuery: setQuery,
   inject: inject
 };
 
 var CFG;
+const QUERY = window.location.search;
 
 function setConfig (config) {
   CFG = config;
+}
+
+function setQuery (config) {
+  config.query_orig = QUERY;
+  config.query = QUERY.replace(/%\d\d/g, '-');
 }
 
 function inject (entry) {

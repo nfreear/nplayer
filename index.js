@@ -7,11 +7,10 @@ const CONFIG = require('./src/configure');
 const PODCAST = require('./src/podcast');
 const PLAYER = require('./src/player');
 
-CONFIG.query = window.location.search;
+PLAYER.setQuery(CONFIG);
+PLAYER.setConfig(CONFIG);
 
 console.warn('N-player config:', CONFIG);
-
-PLAYER.setConfig(CONFIG);
 
 if (PODCAST.isPodcast(CONFIG)) {
   const promise = PODCAST.parse(CONFIG, RSSParser);
